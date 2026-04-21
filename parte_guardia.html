@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guardia Urbana - Partes</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #1a1a2e;
+      color: #e0e0e0;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      color: #4fc3f7;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+
+    .card {
+      background: #16213e;
+      border: 1px solid #0f3460;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #4fc3f7;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #0f3460;
+      padding-bottom: 8px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 500px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    label {
+      display: block;
+      font-size: 0.78rem;
+      color: #90caf9;
+      margin-bottom: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    input[type="text"], input[type="time"], select, textarea {
+      width: 100%;
+      background: #0f3460;
+      border: 1px solid #1a5276;
+      border-radius: 6px;
+      color: #e0e0e0;
+      padding: 9px 12px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus,
+    input[type="time"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #4fc3f7;
+    }
+
+    select option { background: #0f3460; }
+
+    .report-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .report-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: #0f3460;
+      border: 1px solid #1a5276;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .report-option:hover { border-color: #4fc3f7; }
+
+    .report-option input[type="radio"] {
+      width: auto;
+      margin-top: 3px;
+      accent-color: #4fc3f7;
+      flex-shrink: 0;
+    }
+
+    .report-option span {
+      font-size: 0.88rem;
+      color: #cfd8dc;
+      line-height: 1.5;
+    }
+
+    .report-option.selected {
+      border-color: #4fc3f7;
+      background: #1a3a5c;
+    }
+
+    #dynamic-fields {
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn-generate {
+      width: 100%;
+      padding: 13px;
+      background: #4fc3f7;
+      color: #0a0a1a;
+      font-weight: 700;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: background 0.2s;
+    }
+
+    .btn-generate:hover { background: #81d4fa; }
+
+    #output-section { display: none; }
+
+    #output-box {
+      background: #0a1628;
+      border: 1px solid #4fc3f7;
+      border-radius: 8px;
+      padding: 18px;
+      font-family: monospace;
+      font-size: 0.95rem;
+      white-space: pre-wrap;
+      line-height: 1.8;
+      color: #e8f5e9;
+    }
+
+    .btn-copy {
+      margin-top: 12px;
+      width: 100%;
+      padding: 11px;
+      background: #2e7d32;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-copy:hover { background: #43a047; }
+    .btn-copy.copied { background: #1b5e20; }
+
+    .notice {
+      font-size: 0.75rem;
+      color: #78909c;
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    .full-col { grid-column: 1 / -1; }
+  </style>
+</head>
+<body>
+
+<h1>&#128737; Guardia Urbana — Partes</h1>
+
+<!-- DATOS DEL AGENTE -->
+<div class="card">
+  <h2>Datos del Agente</h2>
+  <div class="grid">
+    <div>
+      <label for="fecha">Fecha</label>
+      <input type="text" id="fecha" placeholder="ej: 21/04/2026">
+    </div>
+    <div>
+      <label for="agente">Agente (Apellido y Nombre)</label>
+      <input type="text" id="agente" placeholder="ej: GARCIA, Juan">
+    </div>
+    <div>
+      <label for="legajo">Legajo</label>
+      <input type="text" id="legajo" placeholder="ej: 1234">
+    </div>
+    <div>
+      <label for="movil">Móvil</label>
+      <input type="text" id="movil" placeholder="ej: M-05">
+    </div>
+    <div>
+      <label for="zona">Zona</label>
+      <input type="text" id="zona" placeholder="ej: Zona Norte">
+    </div>
+    <div>
+      <label for="policial">P. Policial</label>
+      <input type="text" id="policial" placeholder="ej: S/P">
+    </div>
+  </div>
+</div>
+
+<!-- SELECCIÓN DE INFORME -->
+<div class="card">
+  <h2>Tipo de Informe</h2>
+  <div class="report-options" id="report-options">
+
+    <label class="report-option" id="opt-1">
+      <input type="radio" name="informe" value="1" onchange="selectReport(1)">
+      <span><b>PREDIO / QTH FIJO</b><br>siendo la hora <b>[HORA]</b> me encuentro en el predio municipal de las arterias de <b>[CALLE 1]</b> y <b>[CALLE 2]</b> al momento todo el panorama s/n.</span>
+    </label>
+
+    <label class="report-option" id="opt-2">
+      <input type="radio" name="informe" value="2" onchange="selectReport(2)">
+      <span><b>EMPEZAR RECORRIDA</b><br>siendo la hora <b>[HORA]</b> empiezo recorrido preventivo en mi zona asignada de <b>[ZONA]</b> al momento es todo como informo.</span>
+    </label>
+
+    <label class="report-option" id="opt-3">
+      <input type="radio" name="informe" value="3" onchange="selectReport(3)">
+      <span><b>RECORRIDA</b><br>siendo la hora <b>[HORA]</b> me encuentro en recorrida de prevención al momento es todo como informo s/n.</span>
+    </label>
+
+    <label class="report-option" id="opt-4">
+      <input type="radio" name="informe" value="4" onchange="selectReport(4)">
+      <span><b>PEDIDO COM</b><br>siendo la hora <b>[HORA]</b> a pedido del C.O.M me desplaza el supervisor al QTH de la arteria <b>[CALLE]</b>.</span>
+    </label>
+
+    <label class="report-option" id="opt-5">
+      <input type="radio" name="informe" value="5" onchange="selectReport(5)">
+      <span>&#9998; <b>Informe personalizado</b> — escribir manualmente.</span>
+    </label>
+
+  </div>
+
+  <!-- CAMPOS DINÁMICOS -->
+  <div id="dynamic-fields"></div>
+</div>
+
+<!-- BOTÓN GENERAR -->
+<button class="btn-generate" onclick="generarParte()">Generar Parte</button>
+
+<!-- RESULTADO -->
+<div class="card" id="output-section" style="margin-top:20px;">
+  <h2>Parte Generado</h2>
+  <div id="output-box"></div>
+  <button class="btn-copy" id="btn-copy" onclick="copiarTexto()">Copiar al portapapeles</button>
+  <p class="notice">Listo para pegar en WhatsApp u otro medio.</p>
+</div>
+
+<script>
+  let selectedReport = null;
+
+  function selectReport(n) {
+    selectedReport = n;
+    for (let i = 1; i <= 5; i++) {
+      document.getElementById('opt-' + i).classList.toggle('selected', i === n);
+    }
+    renderDynamicFields(n);
+  }
+
+  function renderDynamicFields(n) {
+    const container = document.getElementById('dynamic-fields');
+    container.innerHTML = '';
+
+    const fields = getFields(n);
+    fields.forEach(f => {
+      const div = document.createElement('div');
+      div.innerHTML = `<label>${f.label}</label>` +
+        (f.type === 'textarea'
+          ? `<textarea id="${f.id}" rows="3" placeholder="${f.placeholder}"></textarea>`
+          : `<input type="${f.type}" id="${f.id}" placeholder="${f.placeholder}">`);
+      container.appendChild(div);
+    });
+  }
+
+  function getFields(n) {
+    switch(n) {
+      case 1: return [
+        { id: 'df_hora', label: 'Hora', type: 'text', placeholder: 'ej: 14:30 hs' },
+        { id: 'df_calle1', label: 'Calle 1', type: 'text', placeholder: 'ej: AV. SAN MARTÍN' },
+        { id: 'df_calle2', label: 'Calle 2', type: 'text', placeholder: 'ej: BELGRANO' },
+      ];
+      case 2: return [
+        { id: 'df_hora', label: 'Hora', type: 'text', placeholder: 'ej: 08:00 hs' },
+        { id: 'df_zona2', label: 'Zona', type: 'text', placeholder: 'ej: Zona Centro' },
+      ];
+      case 3: return [
+        { id: 'df_hora', label: 'Hora', type: 'text', placeholder: 'ej: 10:15 hs' },
+      ];
+      case 4: return [
+        { id: 'df_hora', label: 'Hora', type: 'text', placeholder: 'ej: 16:45 hs' },
+        { id: 'df_calle4', label: 'Arteria / Dirección', type: 'text', placeholder: 'ej: AV. RIVADAVIA 1200' },
+      ];
+      case 5: return [
+        { id: 'df_libre', label: 'Texto del Informe', type: 'textarea', placeholder: 'Escribí el informe aquí...' },
+      ];
+      default: return [];
+    }
+  }
+
+  function val(id) {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+
+  function buildInforme() {
+    switch(selectedReport) {
+      case 1: {
+        const h = val('df_hora') || '[HORA]';
+        const c1 = val('df_calle1') || '[CALLE 1]';
+        const c2 = val('df_calle2') || '[CALLE 2]';
+        return `siendo la hora ${h} me encuentro en el predio municipal de las arterias de ${c1} y ${c2} al momento todo el panorama s/n.`;
+      }
+      case 2: {
+        const h = val('df_hora') || '[HORA]';
+        const z = val('df_zona2') || '[ZONA]';
+        return `siendo la hora ${h} empiezo recorrido preventivo en mi zona asignada de ${z} al momento es todo como informo.`;
+      }
+      case 3: {
+        const h = val('df_hora') || '[HORA]';
+        return `siendo la hora ${h} me encuentro en recorrida de prevención al momento es todo como informo s/n.`;
+      }
+      case 4: {
+        const h = val('df_hora') || '[HORA]';
+        const c = val('df_calle4') || '[CALLE]';
+        return `siendo la hora ${h} a pedido del C.O.M me desplaza el supervisor al QTH de la arteria ${c}.`;
+      }
+      case 5: {
+        return val('df_libre') || '[INFORME]';
+      }
+      default: return '[SELECCIONÁ UN TIPO DE INFORME]';
+    }
+  }
+
+  function generarParte() {
+    const fecha   = val('fecha')    || '[FECHA]';
+    const agente  = val('agente')   || '[APELLIDO Y NOMBRE]';
+    const legajo  = val('legajo')   || '[LEGAJO]';
+    const movil   = val('movil')    || '[MÓVIL]';
+    const zona    = val('zona')     || '[ZONA]';
+    const policial = val('policial') || '[S/P]';
+    const informe = buildInforme();
+
+    const texto =
+`*GUARDIA URBANA*
+
+*Fecha:* ${fecha}
+
+*Agente:* ${agente}
+
+*Legajo:* ${legajo}
+
+*Movil:* ${movil}
+
+*Zona:* ${zona}
+
+*P.policia:* ${policial}
+
+*Informe:* ${informe}`;
+
+    document.getElementById('output-box').textContent = texto;
+    const sec = document.getElementById('output-section');
+    sec.style.display = 'block';
+    sec.scrollIntoView({ behavior: 'smooth' });
+
+    const btn = document.getElementById('btn-copy');
+    btn.textContent = 'Copiar al portapapeles';
+    btn.classList.remove('copied');
+  }
+
+  function copiarTexto() {
+    const texto = document.getElementById('output-box').textContent;
+    navigator.clipboard.writeText(texto).then(() => {
+      const btn = document.getElementById('btn-copy');
+      btn.textContent = '✓ Copiado!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copiar al portapapeles';
+        btn.classList.remove('copied');
+      }, 2500);
+    });
+  }
+
+  // Setear fecha de hoy automáticamente
+  (function() {
+    const hoy = new Date();
+    const d = String(hoy.getDate()).padStart(2, '0');
+    const m = String(hoy.getMonth() + 1).padStart(2, '0');
+    const y = hoy.getFullYear();
+    document.getElementById('fecha').value = `${d}/${m}/${y}`;
+  })();
+</script>
+
+</body>
+</html>
